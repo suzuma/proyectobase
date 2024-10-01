@@ -27,7 +27,7 @@ La interfaz de usuario (UI) escucha los cambios en el estado y se actualiza en c
 4. Conectar la UI al BLoC para enviar eventos y escuchar estados.
 
 #### Código
-'''
+
 ```dart
 // Definir eventos
 abstract class CounterEvent {}
@@ -93,3 +93,21 @@ void main() {
 }
 
 ```
+
+### Inyectar librerias
+
+[Documentacion de la libreria](https://pub.dev/packages/injectable)
+
+## Run the generator
+
+Use the `[watch]` flag to watch the file system for edits and rebuild as necessary:
+
+```bash
+flutter packages pub run build_runner watch
+
+```
+if you want the generator to run one time and exits use
+
+```bash
+flutter packages pub run build_runner build
+
