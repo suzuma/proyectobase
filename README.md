@@ -14,7 +14,7 @@ El BLoC recibe los eventos y contiene la lógica de negocio para manejar esos ev
 
 ### Estados
 Los estados son el resultado de la lógica de negocio aplicada a los eventos. El BLoC emite nuevos estados en respuesta a los eventos.
-
+gti .
 ### UI
 La interfaz de usuario (UI) escucha los cambios en el estado y se actualiza en consecuencia. La UI envía eventos al BLoC cuando el usuario interactúa con la aplicación.
 
@@ -25,3 +25,71 @@ La interfaz de usuario (UI) escucha los cambios en el estado y se actualiza en c
 2. Definir estados.
 3. Crear una clase BLoC que maneje los eventos y emita estados.
 4. Conectar la UI al BLoC para enviar eventos y escuchar estados.
+
+#### Código
+'''
+```dart
+// Definir eventos
+abstract class CounterEvent {}
+class IncrementEvent extends CounterEvent {}
+
+// Definir estados
+abstract class CounterState {}
+class CounterInitial extends CounterState {}
+class CounterValue extends CounterState {
+  final int value;
+  CounterValue(this.value);
+}
+
+// Crear la clase BLoC
+class CounterBloc extends Bloc<CounterEvent, CounterState> {
+  CounterBloc() : super(CounterInitial());
+
+  @override
+  Stream<CounterState> mapEventToState(CounterEvent event) async* {
+    if (event is IncrementEvent) {
+      final currentState = state;
+      int newValue = 0;
+      if (currentState is CounterValue) {
+        newValue = currentState.value + 1;
+      }
+      yield CounterValue(newValue);
+    }
+  }
+}
+
+// Conectar la UI al BLoC
+void main() {
+  final CounterBloc counterBloc = CounterBloc();
+
+  runApp(MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(title: Text('BLoC Pattern Example')),
+      body: BlocBuilder<CounterBloc, CounterState>(
+        bloc: counterBloc,
+        builder: (context, state) {
+          int counterValue = 0;
+          if (state is CounterValue) {
+            counterValue = state.value;
+          }
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Counter Value: $counterValue'),
+                ElevatedButton(
+                  onPressed: () {
+                    counterBloc.add(IncrementEvent());
+                  },
+                  child: Text('Increment'),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    ),
+  ));
+}
+
+```
