@@ -1,7 +1,8 @@
-import '../../domain/models/articleResponse.dart';
+import 'package:practica_bloc/src/domain/models/articleResponse.dart';
+import 'package:practica_bloc/src/presentation/utils/Resource.dart';
+
 import '../../domain/repository/newsRepository.dart';
-import '../../presentation/utils/resource.dart';
-import 'remote/newsServices.dart';
+import '../dataSource/remote/newsServices.dart';
 
 class NewsRepositoryImpl implements NewsRepository {
   NewsServices newsServices;
